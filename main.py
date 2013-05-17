@@ -176,21 +176,21 @@ class Provider:
             def Remove():
                 return False
 
-    class DB:
-        def __init__():
-            pass
-        def Fetch():
-            pass
-        def Update(source_db):
-            return True
-        def SyncStatus():
-            return False
-        def LastAcces():
-            return True
-        def LastModifed():
-            return True
-        def SourceProvider():
-            return __self__.Name
+        class DB:
+            def __init__():
+                pass
+            def Fetch():
+                pass
+            def Update(source_db):
+                return True
+            def SyncStatus():
+                return False
+            def LastAcces():
+                return True
+            def LastModifed():
+                return True
+            def SourceProvider():
+                return __self__.Name
     class Modinfo:
         Name     = "Modinfo"
         Type     = "any"
