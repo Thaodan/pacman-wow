@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python
 
 '''
 '''
@@ -8,11 +8,10 @@
 #                <p>If your download doesn't begin <a data-project="20695" data-file="652710" data-href="http://addons.curse.cursecdn.com/files/652/710/Bazooka-v2.2.1.zip" class="download-link" href="#">click here</a>.</p>
 
 
-from __future__ import print_function
+
 import sys
-import urllib
-import urllib2
-from BeautifulSoup import BeautifulSoup
+from urllib.request import urlopen,getproxies
+from bs4 import BeautifulSoup
 from ConfigParser import RawConfigParser as ConfigParser
 import gettext
 
@@ -62,120 +61,120 @@ def crash(code):
     sys.exit(code)
 
 class Provider:
-  class Curse:
-    '''
-    Provider to read Moddata from Curse.com
-    '''    
-    Name    = "Curse"
-    Type    = "Remote"
-    BaseURL="http://www.curse.com/addons/wow"
-    __self__ = Provider.Cuse
-    def __init__():
-      ''' Cache HTML Page so that not every functions needs to pull it'''
-      __self__.html_page= Tools.GetHtmlPage(Url)
-    class Mod:
-      ''' Read Moddata from Curse, contains standard methods to return imformations like other Provider'''
-      def Name(Shortnames):
-        pass
-      def Description(Url):
-        pass
-      def Version(Url):
-        pass
-      def ProjectUrl(Url):
-        pass
-      def Url(shortname):
-          return BaseURL+self.shortname
-      def DownloadUrl(Url):
-          return BaseURL+self.shortname+"/download"
-      def DownloadUrlL(DownloadUrl):
-        ''' get the download url - return list of files '''
-        self.__return_urls__  =   []
-        self.html_page        =   Tools.GetHtmlPage(DownloadUrl)
-        self.soup = BeautifulSoup(self.html_page)
-        for link in self.soup.findAll('a'):
-          self.cur_url = link.get('data-href')
-          if self.cur_url:
-            print(self.cur_url)
-          self.__return_urls__.append(cur_url)
-	  
-        return self.__return_urls__
-      def RequiredDepencies():
-        pass
-      def OptionalDepencies():
-        pass
-      def Add():
-          return False
-      def Remove():
-          return False
-    class DB:
-        Type=Raw
-        def Fetch():
-            return True
-        def Update():
-            '''
-            Remote Provider doesn't allow update
-            '''
-            return False
-        def LastAcces():
-            return True
-        def LastModifed():
-            return True
-        def SourceProvider():
-            return  Provider.Curse.Name
-        def SyncStatus():
-            '''
-            Remote Providers are always out of sync
-            '''
-            return False 
-  class Blizzard:
-    ''' 
-    Moddata Provider to read data from TocFile
-    
-    '''
-    ProviderType = "Local" # Provider represents some parts of our Local Data
-    __self__ = Provider.Blizzard
-    class Mod:
-      ''' Read Moddata from Blizzard TocFile, contains standard methods to return imformations like other Provider'''
-      def __init__():
-        TocFile = Tools.TocFile
-        TocFile.OpenFile(Shortname)
-      def Name(Url):
-        return Tools.TocFile.ReadField('Title')
-      def Description(Url):
-        return Tools.TocFile.ReadField('Notes')
-      def Version():
-        return Tools.TocFile.ReadField('Version')
-      def ProjectUrl(Url):
-        return Tools.TocFile.ReadField('X-Website')
-      def Url(shortname):
-        return False
-      def DownloadUrl(Url):
-        return False # not aviable this provider only provides data
-      def DownloadUrlL(DownloadUrls):
-        return False # same 
-      def RequiredDepencies():
-        __required_depencies__ = []
-        # FIXME: replace with cleaner code
-        # see: www.wowpedia.org/The_TOC_Format#Depencies
-        try:
-          __required_depencies__ = TocFile.ReadField('Require dDeps')
-        except:
-          try: 
-            __required_depencies__ = TocFile.ReadField('Depencies')
-          except:
-            try:
-              __required_depencies__ = TocFile.ReadField('Deps')
-            except:
-              return False
+    class Curse:
+        '''
+        Provider to read Moddata from Curse.com
+        '''    
+        Name      = "Curse"
+        Type      = "Remote"
+        BaseURL   = "http://www.curse.com/addons/wow"
+        __self__  = Provider.Cuse
+        def __init__():
+            ''' Cache HTML Page so that not every functions needs to pull it'''
+            __self__.html_page = Tools.GetHtmlPage(Url)
+            soup               = BeautifulSoup(__self__.html_page)
+
+        class Mod:
+            ''' Read Moddata from Curse, contains standard methods to return imformations like other Provider'''
+            def Name(Shortnames):
+                pass
+            def Description(Url):
+                pass
+            def Version(Url):
+                pass
+            def ProjectUrl(Url):
+                pass
+            def Url(shortname):
+                return BaseURL+self.shortname
+            def DownloadUrl(self.Url):
+                ''' get the download url - return list of files '''
+                self.__return_urls__  =   []
+                self.html_page        =   Tools.GetHtmlPage(DownloadUrl)
+                for link in  __self__.soup.findAll('a'):
+                    self.cur_url = link.get('data-href')
+                    if self.cur_url:
+                        print(self.cur_url)
+                        self.__return_urls__.append(cur_url)
+                    
+                return self.__return_urls__
+            def RequiredDepencies():
+                pass
+            def OptionalDepencies():
+                pass
+            def Add():
+                return False
+            def Remove():
+                return False
+
+        class DB:
+            Type = "Raw"
+            def Fetch():
+                return True
+            def Update():
+                '''
+                Remote Provider doesn't allow update
+                '''
+                return False
+            def LastAcces():
+                return True
+            def LastModifed():
+                return True
+            def SourceProvider():
+                return  __self__.Curse.Name
+            def SyncStatus():
+                '''
+                Remote Providers are always out of sync
+                '''
+                return False 
+    class Blizzard:
+        ''' 
+        Moddata Provider to read data from TocFile
         
-        return __required_depencies__
+        '''
+        ProviderType = "Local" # Provider represents some parts of our Local Data
+        __self__     = Provider.Blizzard
+        class Mod:
+            ''' Read Moddata from Blizzard TocFile, contains standard methods to return imformations like other Provider'''
+            def __init__():
+                TocFile = Tools.TocFile
+                TocFile.OpenFile(Shortname)
+            def Name(Url):
+                return Tools.TocFile.ReadField('Title')
+            def Description(Url):
+                return Tools.TocFile.ReadField('Notes')
+            def Version():
+                return Tools.TocFile.ReadField('Version')
+            def ProjectUrl(Url):
+                return Tools.TocFile.ReadField('X-Website')
+            def Url(shortname):
+                return False
+            def DownloadUrl(Url):
+                return False # not aviable this provider only provides data
+            def DownloadUrlL(DownloadUrls):
+                return False # same 
+            def RequiredDepencies():
+                __required_depencies__ = []
+                # FIXME: replace with cleaner code
+                # see: www.wowpedia.org/The_TOC_Format#Depencies
+                try:
+                    __required_depencies__ = TocFile.ReadField('Require dDeps')
+                except:
+                    try: 
+                        __required_depencies__ = TocFile.ReadField('Depencies')
+                    except:
+                        try:
+                            __required_depencies__ = TocFile.ReadField('Deps')
+                        except:
+                            return False
+        
+                return __required_depencies__
             
-      def OptionalDepencies():
-        return TocFile.ReadField('OptionalDeps')
-      def Add():
-          return False
-      def Remove():
-          return False
+            def OptionalDepencies():
+                return TocFile.ReadField('OptionalDeps')
+            def Add():
+                return False
+            def Remove():
+                return False
 
     class DB:
         def __init__():
@@ -193,8 +192,8 @@ class Provider:
         def SourceProvider():
             return __self__.Name
     class Modinfo:
-        Name="Modinfo"
-        Type="any"
+        Name     = "Modinfo"
+        Type     = "any"
         __self__ = Provider.Modinfo
         class Mod:
             def Name(Shortnames):
@@ -218,12 +217,12 @@ class Provider:
             def Remove():
                 return False
         class DB:
-            Type=Raw
+            Type = Raw
             def Fetch():
                 return True
             def Update():
                 '''
-                Remote Provider doesn't allow update
+                Remote Provider doesn\'t allow update
                 '''
                 return False
             def LastAcces():
@@ -268,18 +267,19 @@ class Provider:
 class Tools:
   def __init__():
     pass
-  def DownloadFiles(Files, TargetDirectory):
+  def DownloadFiles(self.Files, self.TargetDirectory):
     '''
     download from list of urls
     '''
-    for url in self.DownloadUrlLs:
+    #FIXME
+    for url in self.Files:
       i = url.rfind('/')
       file = url[i+1:]
-      urllib.urlretrieve(url, TargetDirectory/file)
+      urlopen(url, self.TargetDirectory/file)
     
-  def GetHtmlPage(Url):
+  def GetHtmlPage(self.Url):
     try:
-      return urllib2.urlopen(self.Url)
+      return urlopen(self.Url)
     except:
       return False
   def Extract(Files, TargetDirectory):
@@ -412,9 +412,6 @@ def main():
                   print 'error while installing'
                   return False
 
-#   for __mod_name__ in Provider.Remote.Mod.Name(non_action_args):
- #         __basename_mod=Provider.Mod.Download
-  #        pass
 if __name__ == "__main__":
     main()
 
