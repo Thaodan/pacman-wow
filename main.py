@@ -12,7 +12,6 @@
 import sys
 from os import environ
 from urllib.request import urlopen,getproxies
-from bs4 import BeautifulSoup
 from ConfigParser import RawConfigParser as ConfigParser
 import gettext
 import Provider
@@ -69,10 +68,20 @@ class TocFile:
     NOTE: Needs changes according to: www.wowpedia.org/The_TOC_Format
     '''
     def __init__(self, file):
-        open(file)
-    def ReadField(Field):
-        pass
-    def WriteField(Field, Data):
+        self.file = open(file)
+        self.dict = {}
+        __line__  = []
+        for __line_raw__ in self.file:
+            __match__ = re.search('^# ', line) # skip comments
+            __match2__ = re.search('^##', line)  
+            if not __match__ or __match2__:	
+                __line_raw__ = line_raw.replace('## ', '') # we don't want the preceding '## '
+                __line__ = __line_raw__.split()
+                __line__[0] = __line__[0].replace(':', '')
+                self.dict[__line__[0]] = __line__[1]
+    def ReadField(self, Field):
+        return self.dict[Field]
+    def WriteField(self, Field, Data):
         pass
 
 def DownloadFiles(self, Files, TargetDirectory):
@@ -91,48 +100,8 @@ def GetHtmlPage(self, Url):
         return False
 def Extract(Files, TargetDirectory):
     pass
-def GenMODINFO():
-    pass
 
-class Install:
-    def __init__():
-        pass
-    def Mod(PaketAdressen):
-        '''
-        try to get Mod
-        try to add Mod to Local Provider
-        '''
-        __mod_basenames__ = PaketAdresse[:1]
-        try:
-            get(__mod_path__.Mod.(PaketAdressen) 
-        except:
-            print("Error while getting", PaketAdresse)
-            return False
- 
-        add(__local__modpath__,Provider.Local)
-        # no Native MODINFO found try to gues by TocFile and gen local Modinfo
-        #  try: 
-        #      Tools.Extract(PaketAdresse,CACHE_DIR)
-        #  except:
-           #   print "error while extracting mod"
-         ##     return False
 
-          #if not exist PaketAdresse/.MODINFO:
-           #   try:
-            #      Tools.GenMODINFO(PaketAdresse/*.toc, PaketAdresse/.MODINFO)
-             # except:
-             #     print _("error while generating MODFILE for:")
-              #    return False
-         # try: 
-          #    ConfigParser.read(PaketAdresse/.MODINFO)
-           #   __install__ = ConfigParser.get('ModInfo', 'Install')
-         # except:
-         #     return False
-        #  if __install__ == True:
-         #     os.system(In
-        # copy files to Chroot
-        # run .install files
-        
 
 
 def main():

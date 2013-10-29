@@ -3,21 +3,23 @@
 Moddata Provider to read data from TocFile
 
 '''
-ProviderType = "Local" # Provider represents some parts of our Local Data
+
+config = CONFIG_DIR + blizzard.cfg
+
+Type = "Local" # Provider represents some parts of our Local Data
 __self__     = Provider.Blizzard
 class Mod:
     ''' Read Moddata from Blizzard TocFile, contains standard methods to return imformations like other Provider'''
     def __init__():
-	TocFile = Tools.TocFile
-	TocFile.OpenFile(Shortname)
+	TocFile = TocFile(Shortname)
     def Name(Url):
-	return Tools.TocFile.ReadField('Title')
+	return TocFile.ReadField('Title')
     def Description(Url):
-	return Tools.TocFile.ReadField('Notes')
+	return TocFile.ReadField('Notes')
     def Version():
-	return Tools.TocFile.ReadField('Version')
+	return TocFile.ReadField('Version')
     def ProjectUrl(Url):
-	return Tools.TocFile.ReadField('X-Website')
+	return TocFile.ReadField('X-Website')
     def Url(shortname):
 	return False
     def DownloadUrl(Url):
